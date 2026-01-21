@@ -4,14 +4,14 @@ import { useMemo } from "react";
 import { Address } from "@scaffold-ui/components";
 import { useFetchNativeCurrencyPrice } from "@scaffold-ui/hooks";
 import { parseEther } from "viem";
-import { CurrencyDollarIcon, EyeIcon, UsersIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import { CurrencyDollarIcon, EyeIcon, UsersIcon } from "@heroicons/react/20/solid";
 import { useScaffoldReadContract, useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 
 interface CourseCardProps {
   courseId: string;
   name: string;
   description: string;
-  price: string; // Recibimos el string de ETH sin redondear desde el Home
+  price: string;
   isActive: boolean;
   studentCount: number;
   isOwner: boolean;
@@ -28,40 +28,43 @@ export function CourseCard({
   isOwner,
   userAddress,
 }: CourseCardProps) {
-  // 1. Hook para el precio de mercado de ETH
   const ethPriceInUsd = useFetchNativeCurrencyPrice();
 
-  // 2. Hook para comprar el curso
+  //smart contract
   const { writeContractAsync: writeCourseManagementAsync } = useScaffoldWriteContract({
     contractName: "CourseManagement",
   });
 
-  // 3. Hook para ver la lista de estudiantes (para la tabla del modal)
+  // Solo agregamos esta lectura para la tabla del modal
   const { data: students } = useScaffoldReadContract({
     contractName: "CourseManagement",
     functionName: "getStudentsByCourse",
     args: [BigInt(courseId)],
   });
 
-  // 4. Hook para verificar si el usuario logueado ya está inscrito
+  const priceInUsd = useMemo(() => {
+    const rawPrice = typeof ethPriceInUsd === "object" ? ethPriceInUsd.price : ethPriceInUsd;
+    const marketPrice = parseFloat(rawPrice?.toString() || "0");
+    const courseEthPrice = parseFloat(priceInEth?.toString() || "0");
+
+    if (marketPrice <= 0 || courseEthPrice <= 0) return "0.00";
+
+    const total = courseEthPrice * marketPrice;
+    return total.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }, [ethPriceInUsd, priceInEth]);
+
   const { data: alreadyHasAccess } = useScaffoldReadContract({
     contractName: "CourseManagement",
     functionName: "isEnrolled",
     args: [userAddress, BigInt(courseId)],
   });
 
-  // --- LÓGICA DE CÁLCULO DE PRECIO ---
-  const priceInUsd = useMemo(() => {
-    const marketPrice = Number(ethPriceInUsd);
-    const courseEthPrice = parseFloat(priceInEth || "0");
+  const getButtonText = () => {
+    if (isOwner) return "Eres el administrador";
+    if (alreadyHasAccess) return "Ya inscrito";
+    return isActive ? "Inscribirse" : "No disponible";
+  };
 
-    if (!marketPrice || !courseEthPrice) return "0.00";
-
-    const total = courseEthPrice * marketPrice;
-    return total.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  }, [ethPriceInUsd, priceInEth]);
-
-  // --- LÓGICA DE INSCRIPCIÓN ---
   const handleEnroll = async () => {
     try {
       await writeCourseManagementAsync({
@@ -74,31 +77,25 @@ export function CourseCard({
     }
   };
 
-  // --- ESTADOS DEL BOTÓN ---
-  const getButtonText = () => {
-    if (isOwner) return "Eres el administrador";
-    if (alreadyHasAccess) return "Ya inscrito";
-    return isActive ? "Inscribirse" : "No disponible";
-  };
-
   const isButtonDisabled = !isActive || isOwner || alreadyHasAccess;
 
   return (
     <>
       <div className="card w-full bg-base-100 shadow-xl border border-base-300 hover:shadow-2xl transition-all duration-300">
         <div className="card-body">
-          {/* Badge de Estado y Botón Ver Inscritos */}
+          {/* Badge de Estado e Icono de Ojo */}
           <div className="flex justify-between items-start">
             <h2 className="card-title text-xl font-bold">{name}</h2>
             <div className="flex items-center gap-2">
-              <button
-                onClick={() => (document.getElementById(`modal_${courseId}`) as any).showModal()}
-                className="btn btn-ghost btn-xs btn-circle text-primary tooltip tooltip-left"
-                data-tip="Ver inscritos"
-              >
-                <EyeIcon className="w-4 h-4" />
-              </button>
-              <div className={`badge ${isActive ? "badge-success" : "badge-ghost"} gap-2 font-bold`}>
+              {isOwner && (
+                <button
+                  onClick={() => (document.getElementById(`modal_${courseId}`) as any).showModal()}
+                  className="btn btn-ghost btn-xs text-primary p-0"
+                >
+                  <EyeIcon className="w-5 h-5" />
+                </button>
+              )}
+              <div className={`badge ${isActive ? "badge-success" : "badge-ghost"} gap-2`}>
                 {isActive ? "Activo" : "Inactivo"}
               </div>
             </div>
@@ -129,14 +126,12 @@ export function CourseCard({
             </div>
           </div>
 
-          {/* Acción Principal */}
+          {/* Acción */}
           <div className="card-actions justify-end mt-6">
             <button
               onClick={handleEnroll}
               disabled={isButtonDisabled}
-              className={`btn btn-primary w-full font-bold uppercase ${
-                alreadyHasAccess ? "btn-outline btn-success" : ""
-              }`}
+              className={`btn btn-primary w-full font-bold uppercase ${alreadyHasAccess ? "btn-outline btn-success" : ""}`}
             >
               {getButtonText()}
             </button>
@@ -144,68 +139,46 @@ export function CourseCard({
         </div>
       </div>
 
-      {/* --- MODAL DE DAISYUI CON TABLA --- */}
-      <dialog id={`modal_${courseId}`} className="modal modal-bottom sm:modal-middle">
-        <div className="modal-box bg-base-100 border border-base-300 shadow-2xl p-0 overflow-hidden">
-          {/* Header del Modal */}
-          <div className="bg-primary p-6 text-primary-content flex justify-between items-center">
-            <div>
-              <h3 className="font-black text-2xl flex items-center gap-2">
-                <UsersIcon className="w-6 h-6" />
-                Estudiantes
-              </h3>
-              <p className="text-xs opacity-80 uppercase tracking-widest">{name}</p>
-            </div>
-            <form method="dialog">
-              <button className="btn btn-sm btn-circle btn-ghost">
-                <XMarkIcon className="w-6 h-6" />
-              </button>
-            </form>
-          </div>
+      {/* MODAL DE DAISYUI */}
+      <dialog id={`modal_${courseId}`} className="modal">
+        <div className="modal-box max-w-2xl bg-base-100">
+          <form method="dialog">
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+          </form>
+          <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
+            <UsersIcon className="w-5 h-5" /> Estudiantes en: {name}
+          </h3>
 
-          {/* Tabla de Estudiantes */}
-          <div className="p-4">
-            <div className="overflow-x-auto rounded-xl border border-base-200">
-              <table className="table table-zebra w-full">
-                <thead>
-                  <tr className="bg-base-200">
-                    <th className="w-12 text-center">#</th>
-                    <th className="text-center">Wallet Address</th>
-                  </tr>
-                </thead>
-                <tbody className="max-h-[300px] overflow-y-auto">
-                  {students && students.length > 0 ? (
-                    students.map((address, index) => (
-                      <tr key={index} className="hover">
-                        <th className="text-center">{index + 1}</th>
-                        <td className="text-center flex justify-center">
-                          <Address address={address} />
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={2} className="text-center py-12">
-                        <div className="flex flex-col items-center opacity-30">
-                          <UsersIcon className="w-12 h-12 mb-2" />
-                          <p className="font-bold">Aún no hay inscritos</p>
-                        </div>
+          <div className="overflow-x-auto">
+            <table className="table w-full table-zebra">
+              <thead>
+                <tr>
+                  <th className="text-center">#</th>
+                  <th className="text-center">Wallet Address</th>
+                </tr>
+              </thead>
+              <tbody>
+                {students && students.length > 0 ? (
+                  students.map((addr, i) => (
+                    <tr key={i}>
+                      <th className="text-center">{i + 1}</th>
+                      <td className="text-center justify-center flex">
+                        <Address address={addr} />
                       </td>
                     </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          {/* Footer del Modal */}
-          <div className="p-4 bg-base-200 flex justify-end">
-            <form method="dialog">
-              <button className="btn btn-sm btn-ghost">Cerrar</button>
-            </form>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={2} className="text-center opacity-50">
+                      No hay inscritos
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
         </div>
-        <form method="dialog" className="modal-backdrop bg-black/40 backdrop-blur-sm">
+        <form method="dialog" className="modal-backdrop">
           <button>close</button>
         </form>
       </dialog>
