@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     CourseManagement: {
-      address: "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+      address: "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
       abi: [
         {
           inputs: [
@@ -234,6 +234,51 @@ const deployedContracts = {
           type: "function",
         },
         {
+          inputs: [],
+          name: "getAllCourses",
+          outputs: [
+            {
+              components: [
+                {
+                  internalType: "uint256",
+                  name: "id",
+                  type: "uint256",
+                },
+                {
+                  internalType: "string",
+                  name: "name",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "description",
+                  type: "string",
+                },
+                {
+                  internalType: "uint256",
+                  name: "price",
+                  type: "uint256",
+                },
+                {
+                  internalType: "bool",
+                  name: "active",
+                  type: "bool",
+                },
+                {
+                  internalType: "uint256",
+                  name: "enrolledCount",
+                  type: "uint256",
+                },
+              ],
+              internalType: "struct CourseManagement.Course[]",
+              name: "",
+              type: "tuple[]",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
           inputs: [
             {
               internalType: "uint256",
@@ -247,6 +292,30 @@ const deployedContracts = {
               internalType: "address[]",
               name: "",
               type: "address[]",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "_student",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "_courseId",
+              type: "uint256",
+            },
+          ],
+          name: "isEnrolled",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
             },
           ],
           stateMutability: "view",
@@ -325,7 +394,7 @@ const deployedContracts = {
         renounceOwnership: "@openzeppelin/contracts/access/Ownable.sol",
         transferOwnership: "@openzeppelin/contracts/access/Ownable.sol",
       },
-      deployedOnBlock: 7,
+      deployedOnBlock: 24,
     },
   },
 } as const;

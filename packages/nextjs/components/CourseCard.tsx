@@ -1,33 +1,73 @@
 "use client";
 
+import { useMemo } from "react";
+import { useFetchNativeCurrencyPrice } from "@scaffold-ui/hooks";
+import { parseEther } from "viem";
 import { CurrencyDollarIcon, UsersIcon } from "@heroicons/react/20/solid";
+import { useScaffoldReadContract, useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 
 interface CourseCardProps {
+  courseId: string;
   name: string;
   description: string;
-  price: number; // En la blockchain solemos manejarlo como string o bigint
+  price: string;
   isActive: boolean;
   studentCount: number;
-  onEnroll?: () => void;
-  isOwner?: boolean;
-  alreadyHasAccess?: boolean;
+  isOwner: boolean;
+  userAddress: string;
 }
 
 export function CourseCard({
+  courseId,
   name,
   description,
-  price,
+  price: priceInEth,
   isActive,
   studentCount,
-  onEnroll,
   isOwner,
-  alreadyHasAccess,
+  userAddress,
 }: CourseCardProps) {
-  // Lógica de texto del botón basada en los nuevos requisitos
+  const ethPriceInUsd = useFetchNativeCurrencyPrice();
+
+  //smart contract
+  const { writeContractAsync: writeCourseManagementAsync } = useScaffoldWriteContract({
+    contractName: "CourseManagement",
+  });
+
+  const priceInUsd = useMemo(() => {
+    // Si ethPriceInUsd es un objeto, intentamos sacar .price, si no, lo tomamos directo.
+    const rawPrice = typeof ethPriceInUsd === "object" ? ethPriceInUsd.price : ethPriceInUsd;
+    const marketPrice = parseFloat(rawPrice?.toString() || "0");
+    const courseEthPrice = parseFloat(priceInEth?.toString() || "0");
+
+    if (marketPrice <= 0 || courseEthPrice <= 0) return "0.00";
+
+    const total = courseEthPrice * marketPrice;
+    return total.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }, [ethPriceInUsd, priceInEth]);
+  // Smart Contract: Verificamos si el usuario ya tiene acceso
+  const { data: alreadyHasAccess } = useScaffoldReadContract({
+    contractName: "CourseManagement",
+    functionName: "isEnrolled",
+    args: [userAddress, BigInt(courseId)],
+  });
+
   const getButtonText = () => {
-    if (isOwner) return "Modo Admin";
+    if (isOwner) return "Eres el administrador";
     if (alreadyHasAccess) return "Ya inscrito";
     return isActive ? "Inscribirse" : "No disponible";
+  };
+
+  const handleEnroll = async () => {
+    try {
+      await writeCourseManagementAsync({
+        functionName: "buyAndRegister",
+        args: [BigInt(courseId)],
+        value: parseEther(priceInEth),
+      });
+    } catch (err) {
+      console.error("Error al inscribirse en el curso:", err);
+    }
   };
 
   const isButtonDisabled = !isActive || isOwner || alreadyHasAccess;
@@ -49,8 +89,15 @@ export function CourseCard({
         {/* Info de Precio y Estudiantes */}
         <div className="flex flex-col gap-3 mt-4">
           <div className="flex items-center gap-2">
-            <CurrencyDollarIcon className="w-5 h-5 text-primary" />
-            <span className="text-2xl font-black">{price} ETH</span>
+            <div className="bg-success/10 p-1.5 rounded-lg">
+              <CurrencyDollarIcon className="w-5 h-5 text-success" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-2xl font-black leading-none">${priceInUsd}</span>
+              <span className="text-[10px] uppercase font-bold text-base-content/40 tracking-wider mt-1">
+                {priceInEth} ETH
+              </span>
+            </div>
           </div>
 
           <div className="flex items-center gap-2 text-base-content/60">
@@ -64,9 +111,9 @@ export function CourseCard({
         {/* Acción */}
         <div className="card-actions justify-end mt-6">
           <button
-            onClick={onEnroll}
+            onClick={handleEnroll}
             disabled={isButtonDisabled}
-            className={`btn btn-primary w-full ${alreadyHasAccess ? "btn-outline btn-success" : ""}`}
+            className={`btn btn-primary w-full font-bold uppercase ${alreadyHasAccess ? "btn-outline btn-success" : ""}`}
           >
             {getButtonText()}
           </button>

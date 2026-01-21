@@ -71,4 +71,28 @@ contract CourseManagement is Ownable, ReentrancyGuard {
 
         emit CoursePurchased(msg.sender, _courseId, course.enrolledCount);
     }
+
+    /**
+     * @notice Devuelve todos los cursos creados hasta el momento
+     * @return Un array con todos los structs de Course
+     */
+    function getAllCourses() public view returns (Course[] memory) {
+        Course[] memory allCourses = new Course[](courseCount);
+
+        for (uint256 i = 1; i <= courseCount; i++) {
+            allCourses[i - 1] = courses[i];
+        }
+
+        return allCourses;
+    }
+
+    /**
+     * @notice Verifica si un estudiante específico está registrado en un curso
+     * @param _student La dirección de la billetera del estudiante
+     * @param _courseId El ID del curso a consultar
+     * @return bool True si el estudiante ya compró el curso
+     */
+    function isEnrolled(address _student, uint256 _courseId) public view returns (bool) {
+        return studentRegistrations[_student][_courseId].exists;
+    }
 }
