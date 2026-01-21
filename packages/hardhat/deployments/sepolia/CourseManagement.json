@@ -1,0 +1,675 @@
+{
+  "address": "0xC523c3fC0A08ffcCbf391fFdD05c81E932b7eB2c",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_owner",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnableInvalidOwner",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "OwnableUnauthorizedAccount",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "ReentrancyGuardReentrantCall",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        }
+      ],
+      "name": "CourseCreated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "student",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "courseId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "totalEnrolled",
+          "type": "uint256"
+        }
+      ],
+      "name": "CoursePurchased",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_courseId",
+          "type": "uint256"
+        }
+      ],
+      "name": "buyAndRegister",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "courseCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "courseStudents",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "courses",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "active",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint256",
+          "name": "enrolledCount",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_description",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_price",
+          "type": "uint256"
+        }
+      ],
+      "name": "createCourse",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getAllCourses",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "id",
+              "type": "uint256"
+            },
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "description",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "price",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "active",
+              "type": "bool"
+            },
+            {
+              "internalType": "uint256",
+              "name": "enrolledCount",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct CourseManagement.Course[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_courseId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getStudentsByCourse",
+      "outputs": [
+        {
+          "internalType": "address[]",
+          "name": "",
+          "type": "address[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_student",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_courseId",
+          "type": "uint256"
+        }
+      ],
+      "name": "isEnrolled",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "studentRegistrations",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "courseId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "hasAccess",
+          "type": "bool"
+        },
+        {
+          "internalType": "bool",
+          "name": "exists",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x548b60767a9c8ee6bd6a8012e2cd17b2ccbdbab56acd73a5bae3646004dfe1ef",
+  "receipt": {
+    "to": null,
+    "from": "0x50c47a0ABD8AE2689Fd50336bdB618c471430802",
+    "contractAddress": "0xC523c3fC0A08ffcCbf391fFdD05c81E932b7eB2c",
+    "transactionIndex": 32,
+    "gasUsed": "1039435",
+    "logsBloom": "0x00000000000000000000000000000000000000000000001000800040000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000020000000000000000000800000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002000800000000000000400000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x085578a2d477f9de508cc7aa596c7c561ab8694878170c5a5a51329165dc10f7",
+    "transactionHash": "0x548b60767a9c8ee6bd6a8012e2cd17b2ccbdbab56acd73a5bae3646004dfe1ef",
+    "logs": [
+      {
+        "transactionIndex": 32,
+        "blockNumber": 10088495,
+        "transactionHash": "0x548b60767a9c8ee6bd6a8012e2cd17b2ccbdbab56acd73a5bae3646004dfe1ef",
+        "address": "0xC523c3fC0A08ffcCbf391fFdD05c81E932b7eB2c",
+        "topics": [
+          "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0",
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "0x00000000000000000000000050c47a0abd8ae2689fd50336bdb618c471430802"
+        ],
+        "data": "0x",
+        "logIndex": 43,
+        "blockHash": "0x085578a2d477f9de508cc7aa596c7c561ab8694878170c5a5a51329165dc10f7"
+      }
+    ],
+    "blockNumber": 10088495,
+    "cumulativeGasUsed": "5714438",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    "0x50c47a0ABD8AE2689Fd50336bdB618c471430802"
+  ],
+  "numDeployments": 1,
+  "solcInputHash": "c3d1ab23e10ced186d8d92735fa77036",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.30+commit.73712a01\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_owner\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"OwnableInvalidOwner\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"OwnableUnauthorizedAccount\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"ReentrancyGuardReentrantCall\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"id\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"}],\"name\":\"CourseCreated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"student\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"courseId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"totalEnrolled\",\"type\":\"uint256\"}],\"name\":\"CoursePurchased\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_courseId\",\"type\":\"uint256\"}],\"name\":\"buyAndRegister\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"courseCount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"courseStudents\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"courses\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"id\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"description\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"active\",\"type\":\"bool\"},{\"internalType\":\"uint256\",\"name\":\"enrolledCount\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_description\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"_price\",\"type\":\"uint256\"}],\"name\":\"createCourse\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getAllCourses\",\"outputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"id\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"description\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"active\",\"type\":\"bool\"},{\"internalType\":\"uint256\",\"name\":\"enrolledCount\",\"type\":\"uint256\"}],\"internalType\":\"struct CourseManagement.Course[]\",\"name\":\"\",\"type\":\"tuple[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_courseId\",\"type\":\"uint256\"}],\"name\":\"getStudentsByCourse\",\"outputs\":[{\"internalType\":\"address[]\",\"name\":\"\",\"type\":\"address[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_student\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_courseId\",\"type\":\"uint256\"}],\"name\":\"isEnrolled\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"studentRegistrations\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"courseId\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"hasAccess\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"exists\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"errors\":{\"OwnableInvalidOwner(address)\":[{\"details\":\"The owner is not a valid owner account. (eg. `address(0)`)\"}],\"OwnableUnauthorizedAccount(address)\":[{\"details\":\"The caller account is not authorized to perform an operation.\"}],\"ReentrancyGuardReentrantCall()\":[{\"details\":\"Unauthorized reentrant call.\"}]},\"kind\":\"dev\",\"methods\":{\"getAllCourses()\":{\"returns\":{\"_0\":\"Un array con todos los structs de Course\"}},\"isEnrolled(address,uint256)\":{\"params\":{\"_courseId\":\"El ID del curso a consultar\",\"_student\":\"La direcci\\u00f3n de la billetera del estudiante\"},\"returns\":{\"_0\":\"bool True si el estudiante ya compr\\u00f3 el curso\"}},\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner.\"},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"getAllCourses()\":{\"notice\":\"Devuelve todos los cursos creados hasta el momento\"},\"isEnrolled(address,uint256)\":{\"notice\":\"Verifica si un estudiante espec\\u00edfico est\\u00e1 registrado en un curso\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/CourseManagement.sol\":\"CourseManagement\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/access/Ownable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.0) (access/Ownable.sol)\\n\\npragma solidity ^0.8.20;\\n\\nimport {Context} from \\\"../utils/Context.sol\\\";\\n\\n/**\\n * @dev Contract module which provides a basic access control mechanism, where\\n * there is an account (an owner) that can be granted exclusive access to\\n * specific functions.\\n *\\n * The initial owner is set to the address provided by the deployer. This can\\n * later be changed with {transferOwnership}.\\n *\\n * This module is used through inheritance. It will make available the modifier\\n * `onlyOwner`, which can be applied to your functions to restrict their use to\\n * the owner.\\n */\\nabstract contract Ownable is Context {\\n    address private _owner;\\n\\n    /**\\n     * @dev The caller account is not authorized to perform an operation.\\n     */\\n    error OwnableUnauthorizedAccount(address account);\\n\\n    /**\\n     * @dev The owner is not a valid owner account. (eg. `address(0)`)\\n     */\\n    error OwnableInvalidOwner(address owner);\\n\\n    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);\\n\\n    /**\\n     * @dev Initializes the contract setting the address provided by the deployer as the initial owner.\\n     */\\n    constructor(address initialOwner) {\\n        if (initialOwner == address(0)) {\\n            revert OwnableInvalidOwner(address(0));\\n        }\\n        _transferOwnership(initialOwner);\\n    }\\n\\n    /**\\n     * @dev Throws if called by any account other than the owner.\\n     */\\n    modifier onlyOwner() {\\n        _checkOwner();\\n        _;\\n    }\\n\\n    /**\\n     * @dev Returns the address of the current owner.\\n     */\\n    function owner() public view virtual returns (address) {\\n        return _owner;\\n    }\\n\\n    /**\\n     * @dev Throws if the sender is not the owner.\\n     */\\n    function _checkOwner() internal view virtual {\\n        if (owner() != _msgSender()) {\\n            revert OwnableUnauthorizedAccount(_msgSender());\\n        }\\n    }\\n\\n    /**\\n     * @dev Leaves the contract without owner. It will not be possible to call\\n     * `onlyOwner` functions. Can only be called by the current owner.\\n     *\\n     * NOTE: Renouncing ownership will leave the contract without an owner,\\n     * thereby disabling any functionality that is only available to the owner.\\n     */\\n    function renounceOwnership() public virtual onlyOwner {\\n        _transferOwnership(address(0));\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Can only be called by the current owner.\\n     */\\n    function transferOwnership(address newOwner) public virtual onlyOwner {\\n        if (newOwner == address(0)) {\\n            revert OwnableInvalidOwner(address(0));\\n        }\\n        _transferOwnership(newOwner);\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Internal function without access restriction.\\n     */\\n    function _transferOwnership(address newOwner) internal virtual {\\n        address oldOwner = _owner;\\n        _owner = newOwner;\\n        emit OwnershipTransferred(oldOwner, newOwner);\\n    }\\n}\\n\",\"keccak256\":\"0xff6d0bb2e285473e5311d9d3caacb525ae3538a80758c10649a4d61029b017bb\",\"license\":\"MIT\"},\"@openzeppelin/contracts/utils/Context.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.1) (utils/Context.sol)\\n\\npragma solidity ^0.8.20;\\n\\n/**\\n * @dev Provides information about the current execution context, including the\\n * sender of the transaction and its data. While these are generally available\\n * via msg.sender and msg.data, they should not be accessed in such a direct\\n * manner, since when dealing with meta-transactions the account sending and\\n * paying for execution may not be the actual sender (as far as an application\\n * is concerned).\\n *\\n * This contract is only required for intermediate, library-like contracts.\\n */\\nabstract contract Context {\\n    function _msgSender() internal view virtual returns (address) {\\n        return msg.sender;\\n    }\\n\\n    function _msgData() internal view virtual returns (bytes calldata) {\\n        return msg.data;\\n    }\\n\\n    function _contextSuffixLength() internal view virtual returns (uint256) {\\n        return 0;\\n    }\\n}\\n\",\"keccak256\":\"0x493033a8d1b176a037b2cc6a04dad01a5c157722049bbecf632ca876224dd4b2\",\"license\":\"MIT\"},\"@openzeppelin/contracts/utils/ReentrancyGuard.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.0) (utils/ReentrancyGuard.sol)\\n\\npragma solidity ^0.8.20;\\n\\n/**\\n * @dev Contract module that helps prevent reentrant calls to a function.\\n *\\n * Inheriting from `ReentrancyGuard` will make the {nonReentrant} modifier\\n * available, which can be applied to functions to make sure there are no nested\\n * (reentrant) calls to them.\\n *\\n * Note that because there is a single `nonReentrant` guard, functions marked as\\n * `nonReentrant` may not call one another. This can be worked around by making\\n * those functions `private`, and then adding `external` `nonReentrant` entry\\n * points to them.\\n *\\n * TIP: If you would like to learn more about reentrancy and alternative ways\\n * to protect against it, check out our blog post\\n * https://blog.openzeppelin.com/reentrancy-after-istanbul/[Reentrancy After Istanbul].\\n */\\nabstract contract ReentrancyGuard {\\n    // Booleans are more expensive than uint256 or any type that takes up a full\\n    // word because each write operation emits an extra SLOAD to first read the\\n    // slot's contents, replace the bits taken up by the boolean, and then write\\n    // back. This is the compiler's defense against contract upgrades and\\n    // pointer aliasing, and it cannot be disabled.\\n\\n    // The values being non-zero value makes deployment a bit more expensive,\\n    // but in exchange the refund on every call to nonReentrant will be lower in\\n    // amount. Since refunds are capped to a percentage of the total\\n    // transaction's gas, it is best to keep them low in cases like this one, to\\n    // increase the likelihood of the full refund coming into effect.\\n    uint256 private constant NOT_ENTERED = 1;\\n    uint256 private constant ENTERED = 2;\\n\\n    uint256 private _status;\\n\\n    /**\\n     * @dev Unauthorized reentrant call.\\n     */\\n    error ReentrancyGuardReentrantCall();\\n\\n    constructor() {\\n        _status = NOT_ENTERED;\\n    }\\n\\n    /**\\n     * @dev Prevents a contract from calling itself, directly or indirectly.\\n     * Calling a `nonReentrant` function from another `nonReentrant`\\n     * function is not supported. It is possible to prevent this from happening\\n     * by making the `nonReentrant` function external, and making it call a\\n     * `private` function that does the actual work.\\n     */\\n    modifier nonReentrant() {\\n        _nonReentrantBefore();\\n        _;\\n        _nonReentrantAfter();\\n    }\\n\\n    function _nonReentrantBefore() private {\\n        // On the first call to nonReentrant, _status will be NOT_ENTERED\\n        if (_status == ENTERED) {\\n            revert ReentrancyGuardReentrantCall();\\n        }\\n\\n        // Any calls to nonReentrant after this point will fail\\n        _status = ENTERED;\\n    }\\n\\n    function _nonReentrantAfter() private {\\n        // By storing the original value once again, a refund is triggered (see\\n        // https://eips.ethereum.org/EIPS/eip-2200)\\n        _status = NOT_ENTERED;\\n    }\\n\\n    /**\\n     * @dev Returns true if the reentrancy guard is currently set to \\\"entered\\\", which indicates there is a\\n     * `nonReentrant` function in the call stack.\\n     */\\n    function _reentrancyGuardEntered() internal view returns (bool) {\\n        return _status == ENTERED;\\n    }\\n}\\n\",\"keccak256\":\"0xf980daa263b661ab8ddee7d4fd833c7da7e7995e2c359ff1f17e67e4112f2236\",\"license\":\"MIT\"},\"contracts/CourseManagement.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity >=0.8.0 <0.9.0;\\n\\nimport \\\"@openzeppelin/contracts/access/Ownable.sol\\\";\\nimport \\\"@openzeppelin/contracts/utils/ReentrancyGuard.sol\\\";\\n\\ncontract CourseManagement is Ownable, ReentrancyGuard {\\n    struct Course {\\n        uint256 id;\\n        string name;\\n        string description;\\n        uint256 price;\\n        bool active;\\n        uint256 enrolledCount;\\n    }\\n\\n    struct Registration {\\n        uint256 courseId;\\n        bool hasAccess;\\n        bool exists;\\n    }\\n\\n    uint256 public courseCount;\\n    mapping(uint256 => Course) public courses;\\n    mapping(address => mapping(uint256 => Registration)) public studentRegistrations;\\n    mapping(uint256 => address[]) public courseStudents;\\n\\n    event CourseCreated(uint256 id, string name, uint256 price);\\n    event CoursePurchased(address indexed student, uint256 courseId, uint256 totalEnrolled);\\n\\n    constructor(address _owner) Ownable(_owner) {}\\n\\n    // --- FUNCIONES DEL ADMIN ---\\n\\n    function createCourse(string memory _name, string memory _description, uint256 _price) public onlyOwner {\\n        courseCount++;\\n        courses[courseCount] = Course(courseCount, _name, _description, _price, true, 0);\\n        emit CourseCreated(courseCount, _name, _price);\\n    }\\n\\n    function getStudentsByCourse(uint256 _courseId) public view returns (address[] memory) {\\n        return courseStudents[_courseId];\\n    }\\n\\n    // --- FUNCIONES DEL ESTUDIANTE ---\\n\\n    function buyAndRegister(uint256 _courseId) public payable nonReentrant {\\n        Course storage course = courses[_courseId];\\n\\n        // 1. VALIDACI\\u00d3N: El curso debe existir\\n        require(course.active, \\\"El curso no existe\\\");\\n\\n        // 2. VALIDACI\\u00d3N: El admin NO puede comprar sus cursos\\n        require(msg.sender != owner(), \\\"El administrador no puede comprar sus cursos\\\");\\n\\n        // 3. VALIDACI\\u00d3N: No comprar dos veces el mismo curso\\n        require(!studentRegistrations[msg.sender][_courseId].exists, \\\"Ya estas registrado en este curso\\\");\\n\\n        // 4. VALIDACI\\u00d3N: Pago correcto\\n        require(msg.value >= course.price, \\\"Pago insuficiente\\\");\\n\\n        // L\\u00f3gica de registro\\n        studentRegistrations[msg.sender][_courseId] = Registration({\\n            courseId: _courseId,\\n            hasAccess: true,\\n            exists: true\\n        });\\n\\n        course.enrolledCount++;\\n        courseStudents[_courseId].push(msg.sender);\\n\\n        emit CoursePurchased(msg.sender, _courseId, course.enrolledCount);\\n    }\\n\\n    /**\\n     * @notice Devuelve todos los cursos creados hasta el momento\\n     * @return Un array con todos los structs de Course\\n     */\\n    function getAllCourses() public view returns (Course[] memory) {\\n        Course[] memory allCourses = new Course[](courseCount);\\n\\n        for (uint256 i = 1; i <= courseCount; i++) {\\n            allCourses[i - 1] = courses[i];\\n        }\\n\\n        return allCourses;\\n    }\\n\\n    /**\\n     * @notice Verifica si un estudiante espec\\u00edfico est\\u00e1 registrado en un curso\\n     * @param _student La direcci\\u00f3n de la billetera del estudiante\\n     * @param _courseId El ID del curso a consultar\\n     * @return bool True si el estudiante ya compr\\u00f3 el curso\\n     */\\n    function isEnrolled(address _student, uint256 _courseId) public view returns (bool) {\\n        return studentRegistrations[_student][_courseId].exists;\\n    }\\n}\\n\",\"keccak256\":\"0x3e94b71695e4f531268d03ce562642876372c9e29c72be1dc9fcee93d54d7374\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b506040516111f03803806111f083398101604081905261002f916100c2565b806001600160a01b03811661005e57604051631e4fbdf760e01b81526000600482015260240160405180910390fd5b61006781610072565b5050600180556100f2565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b6000602082840312156100d457600080fd5b81516001600160a01b03811681146100eb57600080fd5b9392505050565b6110ef806101016000396000f3fe6080604052600436106100a75760003560e01c806396f979d21161006457806396f979d2146101d05780639a9aa40d14610202578063a4adb24b14610215578063bbb1708c14610235578063e47e2d7c14610265578063f2fde38b1461029257600080fd5b806304e48bd1146100ac578063143e51aa146100d7578063660551591461013f5780636e274a3414610163578063715018a61461019b5780638da5cb5b146101b2575b600080fd5b3480156100b857600080fd5b506100c16102b2565b6040516100ce9190610bef565b60405180910390f35b3480156100e357600080fd5b506101226100f2366004610cc1565b60046020908152600092835260408084209091529082529020805460019091015460ff8082169161010090041683565b6040805193845291151560208401521515908201526060016100ce565b34801561014b57600080fd5b5061015560025481565b6040519081526020016100ce565b34801561016f57600080fd5b5061018361017e366004610ceb565b6104fc565b6040516001600160a01b0390911681526020016100ce565b3480156101a757600080fd5b506101b0610534565b005b3480156101be57600080fd5b506000546001600160a01b0316610183565b3480156101dc57600080fd5b506101f06101eb366004610d0d565b610548565b6040516100ce96959493929190610d26565b6101b0610210366004610d0d565b610693565b34801561022157600080fd5b506101b0610230366004610e15565b610928565b34801561024157600080fd5b50610255610250366004610cc1565b610a25565b60405190151581526020016100ce565b34801561027157600080fd5b50610285610280366004610d0d565b610a5b565b6040516100ce9190610e88565b34801561029e57600080fd5b506101b06102ad366004610ed4565b610ac7565b6060600060025467ffffffffffffffff8111156102d1576102d1610d70565b60405190808252806020026020018201604052801561033d57816020015b61032a6040518060c0016040528060008152602001606081526020016060815260200160008152602001600015158152602001600081525090565b8152602001906001900390816102ef5790505b50905060015b60025481116104f657600360008281526020019081526020016000206040518060c00160405290816000820154815260200160018201805461038490610ef6565b80601f01602080910402602001604051908101604052809291908181526020018280546103b090610ef6565b80156103fd5780601f106103d2576101008083540402835291602001916103fd565b820191906000526020600020905b8154815290600101906020018083116103e057829003601f168201915b5050505050815260200160028201805461041690610ef6565b80601f016020809104026020016040519081016040528092919081815260200182805461044290610ef6565b801561048f5780601f106104645761010080835404028352916020019161048f565b820191906000526020600020905b81548152906001019060200180831161047257829003601f168201915b505050918352505060038201546020820152600482015460ff1615156040820152600590910154606090910152826104c8600184610f40565b815181106104d8576104d8610f53565b602002602001018190525080806104ee90610f69565b915050610343565b50919050565b6005602052816000526040600020818154811061051857600080fd5b6000918252602090912001546001600160a01b03169150829050565b61053c610b02565b6105466000610b2f565b565b6003602052600090815260409020805460018201805491929161056a90610ef6565b80601f016020809104026020016040519081016040528092919081815260200182805461059690610ef6565b80156105e35780601f106105b8576101008083540402835291602001916105e3565b820191906000526020600020905b8154815290600101906020018083116105c657829003601f168201915b5050505050908060020180546105f890610ef6565b80601f016020809104026020016040519081016040528092919081815260200182805461062490610ef6565b80156106715780601f1061064657610100808354040283529160200191610671565b820191906000526020600020905b81548152906001019060200180831161065457829003601f168201915b50505050600383015460048401546005909401549293909260ff909116915086565b61069b610b7f565b6000818152600360205260409020600481015460ff166106f75760405162461bcd60e51b8152602060048201526012602482015271456c20637572736f206e6f2065786973746560701b60448201526064015b60405180910390fd5b6000546001600160a01b031633036107665760405162461bcd60e51b815260206004820152602c60248201527f456c2061646d696e6973747261646f72206e6f20707565646520636f6d70726160448201526b722073757320637572736f7360a01b60648201526084016106ee565b336000908152600460209081526040808320858452909152902060010154610100900460ff16156107e35760405162461bcd60e51b815260206004820152602160248201527f5961206573746173207265676973747261646f20656e206573746520637572736044820152606f60f81b60648201526084016106ee565b806003015434101561082b5760405162461bcd60e51b81526020600482015260116024820152705061676f20696e737566696369656e746560781b60448201526064016106ee565b6040805160608101825283815260016020808301828152838501838152336000908152600484528681208982529093529482209351845551929091018054935115156101000261ff00199315159390931661ffff1990941693909317919091179091556005820180549161089e83610f69565b909155505060008281526005602081815260408084208054600181018255908552919093200180546001600160a01b0319163390811790915590830154915190917f4b71ef6d807a9a201a6f28d104a403722af74f85b8f2042a8d152bd2a78f55869161091391868252602082015260400190565b60405180910390a25061092560018055565b50565b610930610b02565b6002805490600061094083610f69565b90915550506040805160c081018252600254808252602080830187815283850187905260608401869052600160808501819052600060a086018190529384526003909252939091208251815592519192919082019061099f9082610fd1565b50604082015160028201906109b49082610fd1565b5060608201516003820155608082015160048201805460ff191691151591909117905560a0909101516005909101556002546040517f642f95fc4f73850f9892227ccee20fac4904ba0645894b644766d21a1a8d820591610a189186908590611090565b60405180910390a1505050565b6001600160a01b0382166000908152600460209081526040808320848452909152902060010154610100900460ff165b92915050565b600081815260056020908152604091829020805483518184028101840190945280845260609392830182828015610abb57602002820191906000526020600020905b81546001600160a01b03168152600190910190602001808311610a9d575b50505050509050919050565b610acf610b02565b6001600160a01b038116610af957604051631e4fbdf760e01b8152600060048201526024016106ee565b61092581610b2f565b6000546001600160a01b031633146105465760405163118cdaa760e01b81523360048201526024016106ee565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b600260015403610ba257604051633ee5aeb560e01b815260040160405180910390fd5b6002600155565b6000815180845260005b81811015610bcf57602081850181015186830182015201610bb3565b506000602082860101526020601f19601f83011685010191505092915050565b6000602082016020835280845180835260408501915060408160051b86010192506020860160005b82811015610c9957603f19878603018452815180518652602081015160c06020880152610c4760c0880182610ba9565b905060408201518782036040890152610c608282610ba9565b606084810151908a01526080808501511515908a015260a093840151939098019290925250506020938401939190910190600101610c17565b50929695505050505050565b80356001600160a01b0381168114610cbc57600080fd5b919050565b60008060408385031215610cd457600080fd5b610cdd83610ca5565b946020939093013593505050565b60008060408385031215610cfe57600080fd5b50508035926020909101359150565b600060208284031215610d1f57600080fd5b5035919050565b86815260c060208201526000610d3f60c0830188610ba9565b8281036040840152610d518188610ba9565b60608401969096525050911515608083015260a0909101529392505050565b634e487b7160e01b600052604160045260246000fd5b600082601f830112610d9757600080fd5b813567ffffffffffffffff811115610db157610db1610d70565b604051601f8201601f19908116603f0116810167ffffffffffffffff81118282101715610de057610de0610d70565b604052818152838201602001851015610df857600080fd5b816020850160208301376000918101602001919091529392505050565b600080600060608486031215610e2a57600080fd5b833567ffffffffffffffff811115610e4157600080fd5b610e4d86828701610d86565b935050602084013567ffffffffffffffff811115610e6a57600080fd5b610e7686828701610d86565b93969395505050506040919091013590565b602080825282518282018190526000918401906040840190835b81811015610ec95783516001600160a01b0316835260209384019390920191600101610ea2565b509095945050505050565b600060208284031215610ee657600080fd5b610eef82610ca5565b9392505050565b600181811c90821680610f0a57607f821691505b6020821081036104f657634e487b7160e01b600052602260045260246000fd5b634e487b7160e01b600052601160045260246000fd5b81810381811115610a5557610a55610f2a565b634e487b7160e01b600052603260045260246000fd5b600060018201610f7b57610f7b610f2a565b5060010190565b601f821115610fcc57806000526020600020601f840160051c81016020851015610fa95750805b601f840160051c820191505b81811015610fc95760008155600101610fb5565b50505b505050565b815167ffffffffffffffff811115610feb57610feb610d70565b610fff81610ff98454610ef6565b84610f82565b6020601f821160018114611033576000831561101b5750848201515b600019600385901b1c1916600184901b178455610fc9565b600084815260208120601f198516915b828110156110635787850151825560209485019460019092019101611043565b50848210156110815786840151600019600387901b60f8161c191681555b50505050600190811b01905550565b8381526060602082015260006110a96060830185610ba9565b905082604083015294935050505056fea264697066735822122009eb8b47c27ef7c9d9a1c5b3b768ad04c467a04cc886cf7c4141d8c8b15befc764736f6c634300081e0033",
+  "deployedBytecode": "0x6080604052600436106100a75760003560e01c806396f979d21161006457806396f979d2146101d05780639a9aa40d14610202578063a4adb24b14610215578063bbb1708c14610235578063e47e2d7c14610265578063f2fde38b1461029257600080fd5b806304e48bd1146100ac578063143e51aa146100d7578063660551591461013f5780636e274a3414610163578063715018a61461019b5780638da5cb5b146101b2575b600080fd5b3480156100b857600080fd5b506100c16102b2565b6040516100ce9190610bef565b60405180910390f35b3480156100e357600080fd5b506101226100f2366004610cc1565b60046020908152600092835260408084209091529082529020805460019091015460ff8082169161010090041683565b6040805193845291151560208401521515908201526060016100ce565b34801561014b57600080fd5b5061015560025481565b6040519081526020016100ce565b34801561016f57600080fd5b5061018361017e366004610ceb565b6104fc565b6040516001600160a01b0390911681526020016100ce565b3480156101a757600080fd5b506101b0610534565b005b3480156101be57600080fd5b506000546001600160a01b0316610183565b3480156101dc57600080fd5b506101f06101eb366004610d0d565b610548565b6040516100ce96959493929190610d26565b6101b0610210366004610d0d565b610693565b34801561022157600080fd5b506101b0610230366004610e15565b610928565b34801561024157600080fd5b50610255610250366004610cc1565b610a25565b60405190151581526020016100ce565b34801561027157600080fd5b50610285610280366004610d0d565b610a5b565b6040516100ce9190610e88565b34801561029e57600080fd5b506101b06102ad366004610ed4565b610ac7565b6060600060025467ffffffffffffffff8111156102d1576102d1610d70565b60405190808252806020026020018201604052801561033d57816020015b61032a6040518060c0016040528060008152602001606081526020016060815260200160008152602001600015158152602001600081525090565b8152602001906001900390816102ef5790505b50905060015b60025481116104f657600360008281526020019081526020016000206040518060c00160405290816000820154815260200160018201805461038490610ef6565b80601f01602080910402602001604051908101604052809291908181526020018280546103b090610ef6565b80156103fd5780601f106103d2576101008083540402835291602001916103fd565b820191906000526020600020905b8154815290600101906020018083116103e057829003601f168201915b5050505050815260200160028201805461041690610ef6565b80601f016020809104026020016040519081016040528092919081815260200182805461044290610ef6565b801561048f5780601f106104645761010080835404028352916020019161048f565b820191906000526020600020905b81548152906001019060200180831161047257829003601f168201915b505050918352505060038201546020820152600482015460ff1615156040820152600590910154606090910152826104c8600184610f40565b815181106104d8576104d8610f53565b602002602001018190525080806104ee90610f69565b915050610343565b50919050565b6005602052816000526040600020818154811061051857600080fd5b6000918252602090912001546001600160a01b03169150829050565b61053c610b02565b6105466000610b2f565b565b6003602052600090815260409020805460018201805491929161056a90610ef6565b80601f016020809104026020016040519081016040528092919081815260200182805461059690610ef6565b80156105e35780601f106105b8576101008083540402835291602001916105e3565b820191906000526020600020905b8154815290600101906020018083116105c657829003601f168201915b5050505050908060020180546105f890610ef6565b80601f016020809104026020016040519081016040528092919081815260200182805461062490610ef6565b80156106715780601f1061064657610100808354040283529160200191610671565b820191906000526020600020905b81548152906001019060200180831161065457829003601f168201915b50505050600383015460048401546005909401549293909260ff909116915086565b61069b610b7f565b6000818152600360205260409020600481015460ff166106f75760405162461bcd60e51b8152602060048201526012602482015271456c20637572736f206e6f2065786973746560701b60448201526064015b60405180910390fd5b6000546001600160a01b031633036107665760405162461bcd60e51b815260206004820152602c60248201527f456c2061646d696e6973747261646f72206e6f20707565646520636f6d70726160448201526b722073757320637572736f7360a01b60648201526084016106ee565b336000908152600460209081526040808320858452909152902060010154610100900460ff16156107e35760405162461bcd60e51b815260206004820152602160248201527f5961206573746173207265676973747261646f20656e206573746520637572736044820152606f60f81b60648201526084016106ee565b806003015434101561082b5760405162461bcd60e51b81526020600482015260116024820152705061676f20696e737566696369656e746560781b60448201526064016106ee565b6040805160608101825283815260016020808301828152838501838152336000908152600484528681208982529093529482209351845551929091018054935115156101000261ff00199315159390931661ffff1990941693909317919091179091556005820180549161089e83610f69565b909155505060008281526005602081815260408084208054600181018255908552919093200180546001600160a01b0319163390811790915590830154915190917f4b71ef6d807a9a201a6f28d104a403722af74f85b8f2042a8d152bd2a78f55869161091391868252602082015260400190565b60405180910390a25061092560018055565b50565b610930610b02565b6002805490600061094083610f69565b90915550506040805160c081018252600254808252602080830187815283850187905260608401869052600160808501819052600060a086018190529384526003909252939091208251815592519192919082019061099f9082610fd1565b50604082015160028201906109b49082610fd1565b5060608201516003820155608082015160048201805460ff191691151591909117905560a0909101516005909101556002546040517f642f95fc4f73850f9892227ccee20fac4904ba0645894b644766d21a1a8d820591610a189186908590611090565b60405180910390a1505050565b6001600160a01b0382166000908152600460209081526040808320848452909152902060010154610100900460ff165b92915050565b600081815260056020908152604091829020805483518184028101840190945280845260609392830182828015610abb57602002820191906000526020600020905b81546001600160a01b03168152600190910190602001808311610a9d575b50505050509050919050565b610acf610b02565b6001600160a01b038116610af957604051631e4fbdf760e01b8152600060048201526024016106ee565b61092581610b2f565b6000546001600160a01b031633146105465760405163118cdaa760e01b81523360048201526024016106ee565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b600260015403610ba257604051633ee5aeb560e01b815260040160405180910390fd5b6002600155565b6000815180845260005b81811015610bcf57602081850181015186830182015201610bb3565b506000602082860101526020601f19601f83011685010191505092915050565b6000602082016020835280845180835260408501915060408160051b86010192506020860160005b82811015610c9957603f19878603018452815180518652602081015160c06020880152610c4760c0880182610ba9565b905060408201518782036040890152610c608282610ba9565b606084810151908a01526080808501511515908a015260a093840151939098019290925250506020938401939190910190600101610c17565b50929695505050505050565b80356001600160a01b0381168114610cbc57600080fd5b919050565b60008060408385031215610cd457600080fd5b610cdd83610ca5565b946020939093013593505050565b60008060408385031215610cfe57600080fd5b50508035926020909101359150565b600060208284031215610d1f57600080fd5b5035919050565b86815260c060208201526000610d3f60c0830188610ba9565b8281036040840152610d518188610ba9565b60608401969096525050911515608083015260a0909101529392505050565b634e487b7160e01b600052604160045260246000fd5b600082601f830112610d9757600080fd5b813567ffffffffffffffff811115610db157610db1610d70565b604051601f8201601f19908116603f0116810167ffffffffffffffff81118282101715610de057610de0610d70565b604052818152838201602001851015610df857600080fd5b816020850160208301376000918101602001919091529392505050565b600080600060608486031215610e2a57600080fd5b833567ffffffffffffffff811115610e4157600080fd5b610e4d86828701610d86565b935050602084013567ffffffffffffffff811115610e6a57600080fd5b610e7686828701610d86565b93969395505050506040919091013590565b602080825282518282018190526000918401906040840190835b81811015610ec95783516001600160a01b0316835260209384019390920191600101610ea2565b509095945050505050565b600060208284031215610ee657600080fd5b610eef82610ca5565b9392505050565b600181811c90821680610f0a57607f821691505b6020821081036104f657634e487b7160e01b600052602260045260246000fd5b634e487b7160e01b600052601160045260246000fd5b81810381811115610a5557610a55610f2a565b634e487b7160e01b600052603260045260246000fd5b600060018201610f7b57610f7b610f2a565b5060010190565b601f821115610fcc57806000526020600020601f840160051c81016020851015610fa95750805b601f840160051c820191505b81811015610fc95760008155600101610fb5565b50505b505050565b815167ffffffffffffffff811115610feb57610feb610d70565b610fff81610ff98454610ef6565b84610f82565b6020601f821160018114611033576000831561101b5750848201515b600019600385901b1c1916600184901b178455610fc9565b600084815260208120601f198516915b828110156110635787850151825560209485019460019092019101611043565b50848210156110815786840151600019600387901b60f8161c191681555b50505050600190811b01905550565b8381526060602082015260006110a96060830185610ba9565b905082604083015294935050505056fea264697066735822122009eb8b47c27ef7c9d9a1c5b3b768ad04c467a04cc886cf7c4141d8c8b15befc764736f6c634300081e0033",
+  "devdoc": {
+    "errors": {
+      "OwnableInvalidOwner(address)": [
+        {
+          "details": "The owner is not a valid owner account. (eg. `address(0)`)"
+        }
+      ],
+      "OwnableUnauthorizedAccount(address)": [
+        {
+          "details": "The caller account is not authorized to perform an operation."
+        }
+      ],
+      "ReentrancyGuardReentrantCall()": [
+        {
+          "details": "Unauthorized reentrant call."
+        }
+      ]
+    },
+    "kind": "dev",
+    "methods": {
+      "getAllCourses()": {
+        "returns": {
+          "_0": "Un array con todos los structs de Course"
+        }
+      },
+      "isEnrolled(address,uint256)": {
+        "params": {
+          "_courseId": "El ID del curso a consultar",
+          "_student": "La dirección de la billetera del estudiante"
+        },
+        "returns": {
+          "_0": "bool True si el estudiante ya compró el curso"
+        }
+      },
+      "owner()": {
+        "details": "Returns the address of the current owner."
+      },
+      "renounceOwnership()": {
+        "details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner."
+      },
+      "transferOwnership(address)": {
+        "details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+      }
+    },
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "getAllCourses()": {
+        "notice": "Devuelve todos los cursos creados hasta el momento"
+      },
+      "isEnrolled(address,uint256)": {
+        "notice": "Verifica si un estudiante específico está registrado en un curso"
+      }
+    },
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 8,
+        "contract": "contracts/CourseManagement.sol:CourseManagement",
+        "label": "_owner",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_address"
+      },
+      {
+        "astId": 188,
+        "contract": "contracts/CourseManagement.sol:CourseManagement",
+        "label": "_status",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 276,
+        "contract": "contracts/CourseManagement.sol:CourseManagement",
+        "label": "courseCount",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 281,
+        "contract": "contracts/CourseManagement.sol:CourseManagement",
+        "label": "courses",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_mapping(t_uint256,t_struct(Course)267_storage)"
+      },
+      {
+        "astId": 288,
+        "contract": "contracts/CourseManagement.sol:CourseManagement",
+        "label": "studentRegistrations",
+        "offset": 0,
+        "slot": "4",
+        "type": "t_mapping(t_address,t_mapping(t_uint256,t_struct(Registration)274_storage))"
+      },
+      {
+        "astId": 293,
+        "contract": "contracts/CourseManagement.sol:CourseManagement",
+        "label": "courseStudents",
+        "offset": 0,
+        "slot": "5",
+        "type": "t_mapping(t_uint256,t_array(t_address)dyn_storage)"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_array(t_address)dyn_storage": {
+        "base": "t_address",
+        "encoding": "dynamic_array",
+        "label": "address[]",
+        "numberOfBytes": "32"
+      },
+      "t_bool": {
+        "encoding": "inplace",
+        "label": "bool",
+        "numberOfBytes": "1"
+      },
+      "t_mapping(t_address,t_mapping(t_uint256,t_struct(Registration)274_storage))": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => mapping(uint256 => struct CourseManagement.Registration))",
+        "numberOfBytes": "32",
+        "value": "t_mapping(t_uint256,t_struct(Registration)274_storage)"
+      },
+      "t_mapping(t_uint256,t_array(t_address)dyn_storage)": {
+        "encoding": "mapping",
+        "key": "t_uint256",
+        "label": "mapping(uint256 => address[])",
+        "numberOfBytes": "32",
+        "value": "t_array(t_address)dyn_storage"
+      },
+      "t_mapping(t_uint256,t_struct(Course)267_storage)": {
+        "encoding": "mapping",
+        "key": "t_uint256",
+        "label": "mapping(uint256 => struct CourseManagement.Course)",
+        "numberOfBytes": "32",
+        "value": "t_struct(Course)267_storage"
+      },
+      "t_mapping(t_uint256,t_struct(Registration)274_storage)": {
+        "encoding": "mapping",
+        "key": "t_uint256",
+        "label": "mapping(uint256 => struct CourseManagement.Registration)",
+        "numberOfBytes": "32",
+        "value": "t_struct(Registration)274_storage"
+      },
+      "t_string_storage": {
+        "encoding": "bytes",
+        "label": "string",
+        "numberOfBytes": "32"
+      },
+      "t_struct(Course)267_storage": {
+        "encoding": "inplace",
+        "label": "struct CourseManagement.Course",
+        "members": [
+          {
+            "astId": 256,
+            "contract": "contracts/CourseManagement.sol:CourseManagement",
+            "label": "id",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 258,
+            "contract": "contracts/CourseManagement.sol:CourseManagement",
+            "label": "name",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_string_storage"
+          },
+          {
+            "astId": 260,
+            "contract": "contracts/CourseManagement.sol:CourseManagement",
+            "label": "description",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_string_storage"
+          },
+          {
+            "astId": 262,
+            "contract": "contracts/CourseManagement.sol:CourseManagement",
+            "label": "price",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 264,
+            "contract": "contracts/CourseManagement.sol:CourseManagement",
+            "label": "active",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_bool"
+          },
+          {
+            "astId": 266,
+            "contract": "contracts/CourseManagement.sol:CourseManagement",
+            "label": "enrolledCount",
+            "offset": 0,
+            "slot": "5",
+            "type": "t_uint256"
+          }
+        ],
+        "numberOfBytes": "192"
+      },
+      "t_struct(Registration)274_storage": {
+        "encoding": "inplace",
+        "label": "struct CourseManagement.Registration",
+        "members": [
+          {
+            "astId": 269,
+            "contract": "contracts/CourseManagement.sol:CourseManagement",
+            "label": "courseId",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 271,
+            "contract": "contracts/CourseManagement.sol:CourseManagement",
+            "label": "hasAccess",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_bool"
+          },
+          {
+            "astId": 273,
+            "contract": "contracts/CourseManagement.sol:CourseManagement",
+            "label": "exists",
+            "offset": 1,
+            "slot": "1",
+            "type": "t_bool"
+          }
+        ],
+        "numberOfBytes": "64"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}
